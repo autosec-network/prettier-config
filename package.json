@@ -1,0 +1,17 @@
+{
+	"name": "@autosec/prettier-config",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.json",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/autosec-network/prettier-config.git"
+	},
+	"author": "autosec",
+	"license": "UNLICENSED",
+	"private": true,
+	"bugs": {
+		"url": "https://github.com/autosec-network/prettier-config/issues"
+	},
+	"homepage": "https://github.com/autosec-network/prettier-config#readme"
+}
