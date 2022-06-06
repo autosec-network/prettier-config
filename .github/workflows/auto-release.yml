@@ -1,0 +1,30 @@
+name: Auto Release Package
+
+on:
+  push:
+    tags:
+      - v*
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # Include tags
+          fetch-depth: 0
+      - name: Get latest git tag
+        run: echo "::set-output name=lasttag::$(git describe --abbrev=0)"
+        id: get-latest-tag
+        shell: bash
+      - name: Generate changelog from commit history
+        run: echo "::set-output name=changelog::$(git log --no-decorate $(git describe --tags --abbrev=0)..HEAD --oneline)"
+        id: get-changelog
+        shell: bash
+      - uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ steps.get-changelog.outputs.changelog }}
+          prerelease: ${{ (contains(github.ref_name, 'pre') || contains(steps.get-latest-tag.outputs.lasttag, 'pre')) && true || false }}
+          tag_name: ${{ startsWith(github.ref_name, 'v') && github.ref_name || steps.get-latest-tag.outputs.lasttag }}
+          generate_release_notes: true
