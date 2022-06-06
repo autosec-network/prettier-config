@@ -16,5 +16,8 @@
 	"homepage": "https://github.com/autosec-network/prettier-config#readme",
 	"peerDependencies": {
 		"prettier": ">= 2"
+	},
+	"publishConfig": {
+		"@autosec-network:registry": "https://npm.pkg.github.com"
 	}
 }
