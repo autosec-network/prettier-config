@@ -1,0 +1,13 @@
+name: Package Life Cycle
+
+on:
+  registry_package:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/delete-package-versions@v3
+        with:
+          package-name: "@autosec-network/prettier-config"
+          min-versions-to-keep: 1000
