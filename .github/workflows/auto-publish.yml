@@ -1,0 +1,47 @@
+name: Auto Publish Package
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - ".github/**"
+      - ".vscode/**"
+  workflow_dispatch:
+    inputs:
+      vIncrement:
+        description: "Increment"
+        required: true
+        type: choice
+        default: "patch"
+        options:
+          - major
+          - minor
+          - patch
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: "npm"
+      - name: Setup Git
+        run: |
+          git config user.name "Node Updater Bot"
+          git config user.email "nodeupdaterbot@autosec.network"
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.NUB_GPG_PRIVATE_KEY }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+      - run: npm version --preid="pre" --sign-git-tag=true ${{ github.event.inputs.vIncrement || 'patch' }} -m "Triggered build %s"
+      - run: git push
+      - run: git push --tags
