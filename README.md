@@ -40,11 +40,11 @@ $ npm i -D @autosec-network/prettier-config
 ```yaml
 - uses: actions/setup-node@v3
   with:
-	# ...
+    # ...
 # Skip post-install scripts here, as a malicious script could steal NODE_AUTH_TOKEN.
 - run: npm ci --ignore-scripts
   env:
-  	NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 # `npm rebuild` will run all those post-install scripts for us.
 - run: npm rebuild && npm run prepare --if-present
 ```
