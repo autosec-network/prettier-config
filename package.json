@@ -1,5 +1,5 @@
 {
-	"name": "@autosec/prettier-config",
+	"name": "@autosec-network/prettier-config",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.json",
